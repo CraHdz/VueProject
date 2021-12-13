@@ -1,7 +1,7 @@
 <template>
    <li>
       <label>
-         <input type="checkbox" :checked="todo.done" @change="eventStatusChanged"/>
+         <input type="checkbox" v-model="isChecked"/>
          <span>{{todo.event}}</span>
       </label>
       <button class="btn btn-danger" style="display:none">删除</button>
@@ -12,10 +12,17 @@
 export default {
    name: "UserItem",
    props:["todo"],
-   methods: {
-      eventStatusChanged(){
-         this.$emit("statusChanged", this.todo.id)
+   computed:{
+      isChecked:{
+         get(){
+            return this.todo.done
+         },
+         set(){
+            this.$bus.$emit("itemCheckChanged", this.todo.id)
+         }
       }
+   },
+   methods: {
    },
 }
 </script>

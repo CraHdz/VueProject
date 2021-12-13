@@ -1,6 +1,6 @@
 <template>
    <ul class="todo-main">
-      <UserItem v-for="todo in todos" :key="todo.id" :todo="todo" @statusChanged="eventStatusChange"/>
+      <UserItem v-for="todo in todos" :key="todo.id" :todo="todo"/>
    </ul>
 </template>
 
@@ -14,9 +14,7 @@ export default {
    },
    props:["todos",],
    methods: {
-      eventStatusChange(id){
-         this.$emit("statusChanged", id)
-      }
+
    },
 }
 </script>

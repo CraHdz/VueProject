@@ -4,7 +4,7 @@
       <div class="todo-container">
         <div class="todo-wrap">
           <UserHeader @addEvent="addEvent" />
-          <UserList :todos="todos" @statusChanged="eventStatusChanged"/>
+          <UserList :todos="todos"/>
           <UserFooter :todos="todos" @allClear="allClear" @allComplete="allComplete" @deleteComplete="deleteComplete"/>
         </div>
       </div>
@@ -41,13 +41,6 @@ export default {
     addEvent(event){
       this.todos.unshift(new todo(event))
     },
-    eventStatusChanged(id){
-      this.todos.forEach((todo) => {
-        if (todo.id == id) {
-          todo.done = !todo.done
-        }
-      });
-    },
 
     allClear(){
       this.todos.forEach((todo) => {
@@ -74,7 +67,16 @@ export default {
         localStorage.setItem("todos", JSON.stringify(this.todos))
       }
     }
-  } 
+  },
+  mounted() {
+    this.$bus.$on("itemCheckChanged", (id)=> {
+      this.todos.forEach((todo) => {
+        if (todo.id == id) {
+          todo.done = !todo.done
+        }
+      });
+    })
+  },
 }
 </script>
 
